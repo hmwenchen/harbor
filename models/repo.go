@@ -43,3 +43,19 @@ type Tag struct {
 	Version string `json:"version"`
 	ImageID string `json:"image_id"`
 }
+
+type Manifest struct {
+	Name          string        `json:"name"`
+	Tag           string        `json:"tag"`
+	Architecture  string        `json:"architecture"`
+	SchemaVersion int           `json:"schemaVersion"`
+	History       []histroyItem `json:"history"`
+}
+
+type histroyItem struct {
+	V1Compatibility string `json:"v1Compatibility"`
+}
+
+type layerItem struct {
+	BlogSum string `json:"blogSum"`
+}

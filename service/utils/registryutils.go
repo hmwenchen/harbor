@@ -40,6 +40,7 @@ func BuildRegistryURL(segments ...string) string {
 		}
 		url += "/" + s
 	}
+	log.Debugf("----registry url is %v", url)
 	return url
 }
 
@@ -57,6 +58,8 @@ func RegistryAPIGet(url, username string) ([]byte, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
+	log.Debugf("--- registry api get status code: %v", response.StatusCode)
+	// log.Debugf("--- registry api get response: %v", result)
 	if response.StatusCode == http.StatusOK {
 		return result, nil
 	} else if response.StatusCode == http.StatusUnauthorized {
@@ -107,6 +110,9 @@ func RegistryAPIGet(url, username string) ([]byte, error) {
 			return nil, err
 		}
 		defer response.Body.Close()
+		log.Debugf("--- 2 registry api get status code: %v", response.StatusCode)
+		// log.Debugf("--- 2 registry api get response: %v", result)
+
 		return result, nil
 	} else {
 		return nil, errors.New(string(result))

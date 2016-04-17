@@ -21,6 +21,7 @@ import (
 
 	"github.com/vmware/harbor/dao"
 	"github.com/vmware/harbor/models"
+	//	svc_utils "github.com/vmware/harbor/service/utils"
 	"github.com/vmware/harbor/utils/log"
 
 	"strconv"
@@ -31,6 +32,7 @@ import (
 type ProjectAPI struct {
 	BaseAPI
 	userID    int
+	username  string
 	projectID int64
 }
 
@@ -38,6 +40,11 @@ type projectReq struct {
 	ProjectName string `json:"project_name"`
 	Public      bool   `json:"public"`
 }
+
+//type tag struct {
+//	Name string   `json:"name"`
+//	Tags []string `json:"tags"`
+//}
 
 const projectNameMaxLen int = 30
 
@@ -92,6 +99,21 @@ func (p *ProjectAPI) Post() {
 		log.Errorf("Failed to add project, error: %v", err)
 		p.RenderError(http.StatusInternalServerError, "Failed to add project")
 	}
+
+	// var tags []string
+	// result, err := svc_utils.RegistryAPIGet(svc_utils.BuildRegistryURL(project.Name, "tags", "list"), p.username)
+	// if err != nil {
+	// 	log.Errorf("Failed to get repo tags, repo name: %s, error: %v", project.Name, err)
+	// 	p.RenderError(http.StatusInternalServerError, "Failed to get repo tags")
+	// } else {
+	// 	t := tag{}
+	// 	json.Unmarshal(result, &t)
+	// 	tags = t.Tags
+	// }
+
+	//	accessLog := models.AccessLog{UserID: project.OwnerID, ProjectID: projectID, RepoName: project.Name + "/", GUID: "N/A", Operation: "create", OpTime: time.Now()}
+	//	err = AddAccessLog(accessLog)
+
 }
 
 // Head ...
@@ -183,6 +205,7 @@ func (p *ProjectAPI) FilterAccessLog() {
 		p.CustomAbort(http.StatusInternalServerError, "Internal error.")
 	}
 	p.Data["json"] = accessLogList
+	log.Errorf("--- accessLog: %v ---", accessLogList)
 	p.ServeJSON()
 }
 

@@ -110,17 +110,17 @@ type tag struct {
 	Tags []string `json:"tags"`
 }
 
-type histroyItem struct {
-	V1Compatibility string `json:"v1Compatibility"`
-}
+// type histroyItem struct {
+// 	V1Compatibility string `json:"v1Compatibility"`
+// }
 
-type manifest struct {
-	Name          string        `json:"name"`
-	Tag           string        `json:"tag"`
-	Architecture  string        `json:"architecture"`
-	SchemaVersion int           `json:"schemaVersion"`
-	History       []histroyItem `json:"history"`
-}
+// type manifest struct {
+// 	Name          string        `json:"name"`
+// 	Tag           string        `json:"tag"`
+// 	Architecture  string        `json:"architecture"`
+// 	SchemaVersion int           `json:"schemaVersion"`
+// 	History       []histroyItem `json:"history"`
+// }
 
 // GetTags handles GET /api/repositories/tags
 func (ra *RepositoryAPI) GetTags() {
@@ -154,7 +154,7 @@ func (ra *RepositoryAPI) GetManifests() {
 		ra.RenderError(http.StatusInternalServerError, "Internal Server Error")
 		return
 	}
-	mani := manifest{}
+	mani := models.Manifest{}
 	err = json.Unmarshal(result, &mani)
 	if err != nil {
 		log.Errorf("Failed to decode json from response for manifests, repo name: %s, tag: %s, error: %v", repoName, tag, err)
